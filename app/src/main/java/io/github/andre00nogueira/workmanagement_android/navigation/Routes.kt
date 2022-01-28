@@ -4,4 +4,8 @@ object Routes {
     object LoginRoute : Route {
         override val route = "login"
     }
+
+    object RegisterRoute : Route {
+        override val route = "register"
+    }
 }

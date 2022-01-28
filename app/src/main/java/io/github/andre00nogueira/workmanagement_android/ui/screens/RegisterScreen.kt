@@ -1,4 +1,4 @@
-package io.github.andre00nogueira.workmanagement_android.ui.theme.screens
+package io.github.andre00nogueira.workmanagement_android.ui.screens
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.KeyboardOptions
@@ -14,17 +14,22 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavHostController
 import io.github.andre00nogueira.workmanagement_android.R
 import io.github.andre00nogueira.workmanagement_android.viewmodels.LoginViewModel
+import io.github.andre00nogueira.workmanagement_android.viewmodels.RegisterViewModel
 
 @Composable
-fun LoginScreen(
-    viewModel: LoginViewModel = viewModel()
+fun RegisterScreen(
+    navController: NavHostController,
+    viewModel: RegisterViewModel = viewModel()
 ) {
     val inProgress = remember { viewModel.uiState.inProgress }
 
     val (username, setUsername) = remember { viewModel.uiState.username }
     val (password, setPassword) = remember { viewModel.uiState.password }
+    val (email, setEmail) = remember { viewModel.uiState.email }
+    val (name, setName) = remember { viewModel.uiState.name }
 
     Scaffold(
         modifier = Modifier
@@ -37,10 +42,18 @@ fun LoginScreen(
             } else {
                 Column(modifier = Modifier.padding(30.dp)) {
                     Text(
-                        text = stringResource(id = R.string.welcome_label),
+                        text = stringResource(id = R.string.new_user_label),
                         fontSize = 30.sp,
                         fontWeight = FontWeight.Bold,
                         modifier = Modifier.padding(bottom = 50.dp)
+                    )
+                    OutlinedTextField(
+                        label = { Text(text = stringResource(id = R.string.name_label)) },
+                        value = name,
+                        onValueChange = setName,
+                        modifier = Modifier
+                            .padding(bottom = 10.dp)
+                            .fillMaxWidth(),
                     )
                     OutlinedTextField(
                         label = { Text(text = stringResource(id = R.string.username_label)) },
@@ -61,14 +74,22 @@ fun LoginScreen(
                         ),
                         modifier = Modifier.fillMaxWidth(),
                     )
+                    OutlinedTextField(
+                        label = { Text(text = stringResource(id = R.string.email_label)) },
+                        value = email,
+                        onValueChange = setEmail,
+                        modifier = Modifier
+                            .padding(bottom = 10.dp)
+                            .fillMaxWidth(),
+                    )
                     Button(
                         modifier = Modifier
                             .padding(top = 20.dp)
                             .fillMaxWidth(),
-                        onClick = { viewModel.onSubmit() },
+                        onClick = { viewModel.onSubmit(navController) },
                     ) {
                         Text(
-                            text = stringResource(id = R.string.login_label),
+                            text = stringResource(id = R.string.register_label),
                             modifier = Modifier.padding(5.dp)
                         )
                     }

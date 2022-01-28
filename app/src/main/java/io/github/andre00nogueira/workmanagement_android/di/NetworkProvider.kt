@@ -1,5 +1,7 @@
 package io.github.andre00nogueira.workmanagement_android.di
 
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -18,17 +20,23 @@ object NetworkProvider {
 
     @Provides
     @Singleton
+    fun provideGson(): Gson = GsonBuilder().setLenient().create()
+
+    @Provides
+    @Singleton
     fun provideOkHttpClient(): OkHttpClient {
         return OkHttpClient.Builder()
             .addInterceptor(HttpLoggingInterceptor().apply { setLevel(HttpLoggingInterceptor.Level.BODY) })
-            .callTimeout(30, TimeUnit.SECONDS)
+            .connectTimeout(30, TimeUnit.SECONDS)
+            .readTimeout(30, TimeUnit.SECONDS)
+            .writeTimeout(30, TimeUnit.SECONDS)
             .build()
     }
 
     @Singleton
     @Provides
-    fun provideRetrofit(client: OkHttpClient) = Retrofit.Builder()
-        .baseUrl("http://localhost:3000/")
+    fun provideRetrofit(client: OkHttpClient, gson: Gson): Retrofit = Retrofit.Builder()
+        .baseUrl("http://10.0.2.2:8080/")
         .client(client)
         .addConverterFactory(GsonConverterFactory.create())
         .build()

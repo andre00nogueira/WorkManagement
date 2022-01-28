@@ -1,4 +1,4 @@
-package io.github.andre00nogueira.workmanagement_android.ui.theme.screens.activity
+package io.github.andre00nogueira.workmanagement_android.ui.screens.activity
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -10,9 +10,11 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import dagger.hilt.android.AndroidEntryPoint
 import io.github.andre00nogueira.workmanagement_android.navigation.Routes
+import io.github.andre00nogueira.workmanagement_android.ui.screens.LoginScreen
+import io.github.andre00nogueira.workmanagement_android.ui.screens.RegisterScreen
 import io.github.andre00nogueira.workmanagement_android.ui.theme.WorkManagementandroidTheme
-import io.github.andre00nogueira.workmanagement_android.ui.theme.screens.LoginScreen
 import io.github.andre00nogueira.workmanagement_android.viewmodels.LoginViewModel
+import io.github.andre00nogueira.workmanagement_android.viewmodels.RegisterViewModel
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -36,7 +38,11 @@ fun NavigationComponent() {
     ) {
         composable(Routes.LoginRoute.route) {
             val viewModel = hiltViewModel<LoginViewModel>()
-            LoginScreen(viewModel)
+            LoginScreen(navController, viewModel)
+        }
+        composable(Routes.RegisterRoute.route) {
+            val viewModel = hiltViewModel<RegisterViewModel>()
+            RegisterScreen(navController, viewModel)
         }
     }
 }

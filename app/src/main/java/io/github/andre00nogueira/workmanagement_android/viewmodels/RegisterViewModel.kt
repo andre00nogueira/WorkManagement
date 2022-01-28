@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavHostController
 import dagger.hilt.android.lifecycle.HiltViewModel
-import io.github.andre00nogueira.workmanagement_android.api.requests.LoginRequest
+import io.github.andre00nogueira.workmanagement_android.api.requests.RegisterRequest
 import io.github.andre00nogueira.workmanagement_android.extensions.hash
 import io.github.andre00nogueira.workmanagement_android.navigation.Routes
 import io.github.andre00nogueira.workmanagement_android.repositories.AuthRepository
@@ -14,20 +14,22 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-data class LoginState(
+data class RegisterState(
     val inProgress: MutableState<Boolean> = mutableStateOf(false),
     val hasError: MutableState<Boolean> = mutableStateOf(false),
 
     val username: MutableState<String> = mutableStateOf(""),
-    val password: MutableState<String> = mutableStateOf("")
+    val password: MutableState<String> = mutableStateOf(""),
+    val email: MutableState<String> = mutableStateOf(""),
+    val name: MutableState<String> = mutableStateOf(""),
 )
 
 @HiltViewModel
-class LoginViewModel @Inject constructor(
+class RegisterViewModel @Inject constructor(
     private val authRepository: AuthRepository
 ) : ViewModel() {
 
-    val uiState = LoginState()
+    val uiState = RegisterState()
 
     fun onSubmit(navController: NavHostController) = viewModelScope.launch {
         uiState.run {
@@ -37,20 +39,25 @@ class LoginViewModel @Inject constructor(
                 return@launch
             }
 
-            val loginRequest =
-                LoginRequest(username = username.value, password = password.value.hash())
-            val response = authRepository.authenticate(loginRequest)
+            val registerRequest =
+                RegisterRequest(
+                    username = username.value,
+                    password = password.value.hash(),
+                    email = email.value,
+                    name = name.value,
+                )
 
-            inProgress.value = false
+            val response = authRepository.register(registerRequest)
+
             hasError.value = response == null || !response.isSuccessful
             response?.let {
                 if (response.isSuccessful) {
                     response.body()?.let { authResponse ->
-                        authRepository.saveAuthToken(authResponse.token)
                         navController.navigate(Routes.LoginRoute.route)
                     }
                 }
             }
+            inProgress.value = false
         }
     }
 }

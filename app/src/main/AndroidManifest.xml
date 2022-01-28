@@ -14,7 +14,7 @@
         android:theme="@style/Theme.WorkManagementandroid"
         android:usesCleartextTraffic="true">
         <activity
-            android:name=".ui.theme.screens.activity.MainActivity"
+            android:name="io.github.andre00nogueira.workmanagement_android.ui.screens.activity.MainActivity"
             android:exported="true"
             android:label="@string/app_name"
             android:theme="@style/Theme.WorkManagementandroid.NoActionBar">
