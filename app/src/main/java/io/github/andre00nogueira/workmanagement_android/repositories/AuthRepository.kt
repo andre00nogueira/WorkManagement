@@ -6,7 +6,6 @@ import io.github.andre00nogueira.workmanagement_android.api.services.AuthService
 import io.github.andre00nogueira.workmanagement_android.model.AuthResponse
 import io.github.andre00nogueira.workmanagement_android.model.User
 import io.github.andre00nogueira.workmanagement_android.preferences.AuthPreferences
-import io.github.andre00nogueira.workmanagement_android.utils.Constants
 import retrofit2.Response
 import java.net.ConnectException
 import javax.inject.Inject
@@ -34,10 +33,7 @@ class AuthRepository @Inject constructor(
 
     fun saveAuthToken(token: String?) {
         token?.let {
-            sharedPreferences.setAuthPreferences().putString(Constants.AUTH_TOKEN, "").apply()
+            sharedPreferences.saveAuthToken(token)
         }
     }
-
-    private fun getAuthToken(): String =
-        "Bearer ${sharedPreferences.getAuthPreferences().getString(Constants.AUTH_TOKEN, "")}"
 }

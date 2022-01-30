@@ -41,16 +41,16 @@ class LoginViewModel @Inject constructor(
                 LoginRequest(username = username.value, password = password.value.hash())
             val response = authRepository.authenticate(loginRequest)
 
-            inProgress.value = false
             hasError.value = response == null || !response.isSuccessful
             response?.let {
                 if (response.isSuccessful) {
                     response.body()?.let { authResponse ->
                         authRepository.saveAuthToken(authResponse.token)
-                        navController.navigate(Routes.LoginRoute.route)
+                        navController.navigate(Routes.JobListRoute.route)
                     }
                 }
             }
+            inProgress.value = false
         }
     }
 }

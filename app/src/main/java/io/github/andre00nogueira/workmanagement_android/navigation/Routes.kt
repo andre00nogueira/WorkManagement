@@ -8,4 +8,8 @@ object Routes {
     object RegisterRoute : Route {
         override val route = "register"
     }
+
+    object JobListRoute : Route {
+        override val route = "jobList"
+    }
 }

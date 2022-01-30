@@ -13,4 +13,8 @@
     <string name="email_label">Email</string>
     <string name="name_label">Name</string>
     <string name="register_label">CREATE ACCOUNT</string>
+
+    <!-- Job List Screen -->
+    <string name="job_title_label">My Jobs</string>
+    <string name="no_jobs">No Jobs</string>
 </resources>
