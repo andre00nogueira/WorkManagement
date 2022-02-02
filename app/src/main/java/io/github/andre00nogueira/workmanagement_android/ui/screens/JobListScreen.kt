@@ -19,6 +19,7 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import io.github.andre00nogueira.workmanagement_android.R
+import io.github.andre00nogueira.workmanagement_android.navigation.Routes
 import io.github.andre00nogueira.workmanagement_android.ui.elements.JobItem
 import io.github.andre00nogueira.workmanagement_android.viewmodels.JobListViewModel
 
@@ -30,16 +31,18 @@ fun JobListScreen(
 ) {
     val inProgress = remember { viewModel.uiState.inProgress }
 
+    val refresh = remember { viewModel.uiState.refresh }
+
     val jobs = remember { viewModel.uiState.jobs }
 
-    LaunchedEffect("getJobList") {
+    LaunchedEffect(refresh.value) {
         viewModel.getJobList()
     }
     Scaffold(
         modifier = Modifier
             .fillMaxSize(),
         floatingActionButton = {
-            FloatingActionButton(onClick = { /*TODO*/ }) {
+            FloatingActionButton(onClick = { navController.navigate(Routes.CreateJobRoute.route) }) {
                 Icon(
                     painter = painterResource(id = R.drawable.ic_add),
                     contentDescription = "Add Job"

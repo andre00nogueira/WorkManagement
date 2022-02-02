@@ -11,10 +11,12 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import dagger.hilt.android.AndroidEntryPoint
 import io.github.andre00nogueira.workmanagement_android.navigation.Routes
+import io.github.andre00nogueira.workmanagement_android.ui.screens.CreateJobScreen
 import io.github.andre00nogueira.workmanagement_android.ui.screens.JobListScreen
 import io.github.andre00nogueira.workmanagement_android.ui.screens.LoginScreen
 import io.github.andre00nogueira.workmanagement_android.ui.screens.RegisterScreen
 import io.github.andre00nogueira.workmanagement_android.ui.theme.WorkManagementandroidTheme
+import io.github.andre00nogueira.workmanagement_android.viewmodels.CreateJobViewModel
 import io.github.andre00nogueira.workmanagement_android.viewmodels.JobListViewModel
 import io.github.andre00nogueira.workmanagement_android.viewmodels.LoginViewModel
 import io.github.andre00nogueira.workmanagement_android.viewmodels.RegisterViewModel
@@ -53,6 +55,10 @@ fun NavigationComponent() {
         composable(Routes.JobListRoute.route) {
             val viewModel = hiltViewModel<JobListViewModel>()
             JobListScreen(navController, viewModel)
+        }
+        composable(Routes.CreateJobRoute.route) {
+            val viewModel = hiltViewModel<CreateJobViewModel>()
+            CreateJobScreen(navController, viewModel)
         }
     }
 }

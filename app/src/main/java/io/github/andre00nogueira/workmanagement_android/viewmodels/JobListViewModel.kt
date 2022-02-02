@@ -14,6 +14,8 @@ data class JobListState(
     val inProgress: MutableState<Boolean> = mutableStateOf(false),
     val hasError: MutableState<Boolean> = mutableStateOf(false),
 
+    val refresh: MutableState<Long> = mutableStateOf(System.currentTimeMillis()),
+
     val jobs: MutableState<List<Job>> = mutableStateOf(emptyList())
 )
 
@@ -46,10 +48,10 @@ class JobListViewModel @Inject constructor(
         uiState.run {
             inProgress.value = true
 
-            val response = jobRepository.deleteJob(job.id)
+            jobRepository.deleteJob(job.id)
 
-            hasError.value = response == null || !response.isSuccessful
             inProgress.value = false
+            refresh.value = System.currentTimeMillis()
         }
     }
 }

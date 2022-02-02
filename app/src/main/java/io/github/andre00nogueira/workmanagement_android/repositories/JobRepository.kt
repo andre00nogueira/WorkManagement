@@ -1,5 +1,6 @@
 package io.github.andre00nogueira.workmanagement_android.repositories
 
+import io.github.andre00nogueira.workmanagement_android.api.requests.CreateJobRequest
 import io.github.andre00nogueira.workmanagement_android.api.services.JobService
 import io.github.andre00nogueira.workmanagement_android.model.Job
 import io.github.andre00nogueira.workmanagement_android.preferences.AuthPreferences
@@ -20,12 +21,24 @@ class JobRepository @Inject constructor(
         }
     }
 
-    suspend fun deleteJob(id: Long): Response<Job>? {
+    suspend fun getJob(id: Long): Response<Job>? {
         return try {
-            jobService.deleteJob(getAuthToken(), id)
+            jobService.getJob(getAuthToken(), id)
         } catch (e: ConnectException) {
             null
         }
+    }
+
+    suspend fun createJob(createJobRequest: CreateJobRequest): Response<Job>? {
+        return try {
+            jobService.createJob(getAuthToken(), createJobRequest)
+        } catch (e: ConnectException) {
+            null
+        }
+    }
+
+    suspend fun deleteJob(id: Long) {
+        jobService.deleteJob(getAuthToken(), id)
     }
 
     private fun getAuthToken(): String =

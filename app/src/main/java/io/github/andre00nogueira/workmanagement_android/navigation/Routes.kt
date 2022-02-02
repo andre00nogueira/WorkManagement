@@ -12,4 +12,8 @@ object Routes {
     object JobListRoute : Route {
         override val route = "jobList"
     }
+
+    object CreateJobRoute : Route {
+        override val route = "createJob"
+    }
 }
